@@ -1,15 +1,13 @@
 # CreateGist for FlashDevelop 4
 
-Adds an option to create a GitHub gist from the open file.  
+Adds an option to editor context menu to create a GitHub gist from the open file or selection.  
 
 ## Download
-[Version 0.1.0](http://goo.gl/prJ0qI)  
+[Version 0.9.0](http://goo.gl/prJ0qI)  
 
 ## History 
+**v0.9** - Added authorization for creating gists under your GitHub account.
 **v0.1** - Initial creation  
-
-## TODO
-- Add authentication so that gists don't have to be anonymous.  
 
 ## Thanks go to
 

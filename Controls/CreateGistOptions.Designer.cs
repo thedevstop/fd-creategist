@@ -35,6 +35,7 @@
             this.shouldOpen = new System.Windows.Forms.CheckBox();
             this.create = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
+            this.clearCredentials = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // descriptionLabel
@@ -72,9 +73,6 @@
             // 
             this.isAnonymous.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.isAnonymous.AutoSize = true;
-            this.isAnonymous.Checked = true;
-            this.isAnonymous.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isAnonymous.Enabled = false;
             this.isAnonymous.Location = new System.Drawing.Point(82, 138);
             this.isAnonymous.Name = "isAnonymous";
             this.isAnonymous.Size = new System.Drawing.Size(81, 17);
@@ -118,6 +116,19 @@
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
+            // clearCredentials
+            // 
+            this.clearCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.clearCredentials.AutoSize = true;
+            this.clearCredentials.Location = new System.Drawing.Point(13, 166);
+            this.clearCredentials.Name = "clearCredentials";
+            this.clearCredentials.Size = new System.Drawing.Size(86, 13);
+            this.clearCredentials.TabIndex = 7;
+            this.clearCredentials.TabStop = true;
+            this.clearCredentials.Text = "Clear Credentials";
+            this.clearCredentials.Visible = false;
+            this.clearCredentials.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.clearCredentials_LinkClicked);
+            // 
             // CreateGistOptions
             // 
             this.AcceptButton = this.create;
@@ -125,6 +136,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(284, 192);
+            this.Controls.Add(this.clearCredentials);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.create);
             this.Controls.Add(this.shouldOpen);
@@ -140,7 +152,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create Gist";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,5 +166,6 @@
         private System.Windows.Forms.CheckBox shouldOpen;
         private System.Windows.Forms.Button create;
         private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.LinkLabel clearCredentials;
     }
 }

@@ -67,6 +67,12 @@
     <Compile Include="Controls\CreateGistOptions.Designer.cs">
       <DependentUpon>CreateGistOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GitHubLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\GitHubLogin.Designer.cs">
+      <DependentUpon>GitHubLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="PluginMain.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
@@ -112,6 +118,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\CreateGistOptions.resx">
       <DependentUpon>CreateGistOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GitHubLogin.resx">
+      <DependentUpon>GitHubLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\en_US.resx" />
   </ItemGroup>

@@ -9,14 +9,37 @@ namespace CreateGist.Helpers
 {
     public static class HttpHelper
     {
-        public static string Post<T>(string uri, object data)
+        public static Dictionary<string, object> Get(string uri, string authorizationHeader = null)
+        {
+            var request = WebRequest.Create(uri);
+
+            if (authorizationHeader != null)
+            {
+                request.Headers[HttpRequestHeader.Authorization] = authorizationHeader;
+            }
+
+            using (var response = request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            using (var reader = new StreamReader(stream))
+            {
+                var body = reader.ReadToEnd();
+                return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+            }
+        }
+
+        public static string Post(string uri, object data, string authorizationHeader = null)
         {
             var request = WebRequest.Create(uri);
             request.Method = "POST";
 
-            var postData = JsonConvert.SerializeObject(data, typeof(T), Formatting.None, null);
+            var postData = JsonConvert.SerializeObject(data);
             request.ContentLength = postData.Length;
             request.ContentType = "application/json";
+
+            if (authorizationHeader != null)
+            {
+                request.Headers[HttpRequestHeader.Authorization] = authorizationHeader;
+            }
 
             using (var requestStream = request.GetRequestStream())
             using (var requestWriter = new StreamWriter(requestStream))

@@ -140,7 +140,7 @@ namespace CreateGist
         private void CreateGist(object sender, EventArgs e)
         {
             var createGist = new Controls.CreateGistOptions();
-            createGist.ShowDialog();
+            createGist.ShowDialog(PluginBase.MainForm);
         }
 
         /// <summary>

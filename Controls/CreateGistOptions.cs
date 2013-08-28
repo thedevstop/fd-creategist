@@ -17,6 +17,7 @@ namespace CreateGist.Controls
     public partial class CreateGistOptions : Form
     {
         const string PostGistUri = "https://api.github.com/gists";
+        static string AuthorizationHeader = string.Empty;
 
         public CreateGistOptions()
         {
@@ -33,6 +34,8 @@ namespace CreateGist.Controls
             this.shouldOpen.Text = ResourceHelper.GetString("CreateGist.Label.OpenInBrowser");
             this.create.Text = ResourceHelper.GetString("CreateGist.Label.Create");
             this.cancel.Text = ResourceHelper.GetString("CreateGist.Label.Cancel");
+            this.clearCredentials.Text = ResourceHelper.GetString("CreateGist.Label.ClearCredentials");
+            this.clearCredentials.Visible = !string.IsNullOrEmpty(CreateGistOptions.AuthorizationHeader);
         }
 
         private void cancel_Click(object sender, EventArgs e)
@@ -42,6 +45,18 @@ namespace CreateGist.Controls
 
         private void create_Click(object sender, EventArgs e)
         {
+            string authorizationHeader = null;
+
+            try
+            {
+                authorizationHeader = this.DetermineAuthorizationHeader();
+            }
+            catch (OperationCanceledException)
+            {
+                ASContext.SetStatusText(ResourceHelper.GetString("CreateGist.LoginFailedOrCanceled"));
+                return;
+            }
+
             var fileName = Path.GetFileName(ASContext.Context.CurrentFile);
             var content = ASContext.CurSciControl.SelTextSize <= 0
                 ? ASContext.CurSciControl.Text
@@ -55,7 +70,7 @@ namespace CreateGist.Controls
 
             try
             {
-                var location = HttpHelper.Post<Gist>(PostGistUri, gist);
+                var location = HttpHelper.Post(PostGistUri, gist, authorizationHeader);
 
                 if (this.shouldOpen.Checked)
                 {
@@ -72,6 +87,32 @@ namespace CreateGist.Controls
             }
 
             this.Close();
+        }
+
+        private string DetermineAuthorizationHeader()
+        {
+            if (this.isAnonymous.Checked)
+                return string.Empty;
+
+            if (string.IsNullOrEmpty(CreateGistOptions.AuthorizationHeader))
+            {
+                var loginForm = new GitHubLogin();
+                if (loginForm.ShowDialog(this) != System.Windows.Forms.DialogResult.OK)
+                {
+                    throw new OperationCanceledException();
+                }
+
+                CreateGistOptions.AuthorizationHeader = "Basic " + loginForm.Credentials;
+                this.clearCredentials.Visible = true;
+            }
+
+            return CreateGistOptions.AuthorizationHeader;
+        }
+
+        private void clearCredentials_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CreateGistOptions.AuthorizationHeader = null;
+            this.clearCredentials.Visible = false;
         }
     }
 
