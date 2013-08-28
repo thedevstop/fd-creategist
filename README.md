@@ -6,7 +6,7 @@ Adds an option to editor context menu to create a GitHub gist from the open file
 [Version 0.9.0](http://goo.gl/prJ0qI)  
 
 ## History 
-**v0.9** - Added authorization for creating gists under your GitHub account.
+**v0.9** - Added authorization for creating gists under your GitHub account.  
 **v0.1** - Initial creation  
 
 ## Thanks go to
