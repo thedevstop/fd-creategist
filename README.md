@@ -3,7 +3,7 @@
 Adds an option to create a GitHub gist from the open file.  
 
 ## Download
-[Version 0.1.0]()  
+[Version 0.1.0](http://goo.gl/prJ0qI)  
 
 ## History 
 **v0.1** - Initial creation  
