@@ -16,11 +16,14 @@ namespace CreateGist.Controls
         const string GitHubSignUpUrl = "https://github.com/signup";
 
         public string Credentials { get; private set; }
+        Settings _settings;
 
-        public GitHubLogin()
+        public GitHubLogin(Settings settings)
         {
+            _settings = settings;
             InitializeComponent();
             InitializeLabels();
+            SetControls();
         }
 
         private void InitializeLabels()
@@ -33,6 +36,20 @@ namespace CreateGist.Controls
             this.signUp.Text = ResourceHelper.GetString("CreateGist.Label.SignUp");
             this.signin.Text = ResourceHelper.GetString("CreateGist.Label.Signin");
             this.cancel.Text = ResourceHelper.GetString("CreateGist.Label.Cancel");
+        }
+
+        private void SetControls()
+        {
+            if (!string.IsNullOrEmpty(_settings.Login))
+            {
+                this.login.Text = _settings.Login;
+                this.password.Focus();
+            }
+        }
+
+        private void SaveSettings()
+        {
+            _settings.Login = this.login.Text;
         }
 
         private void signUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -49,6 +66,7 @@ namespace CreateGist.Controls
             try
             {
                 var apiResponseData = HttpHelper.Get("https://api.github.com/user", basic);
+                SaveSettings();
                 this.Credentials = testCredentials;
                 this.DialogResult = DialogResult.OK;
                 this.Close();

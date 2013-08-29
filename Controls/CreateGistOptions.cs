@@ -19,10 +19,15 @@ namespace CreateGist.Controls
         const string PostGistUri = "https://api.github.com/gists";
         static string AuthorizationHeader = string.Empty;
 
-        public CreateGistOptions()
+        Settings _settings;
+
+        public CreateGistOptions(Settings settings)
         {
+            _settings = settings;
+
             InitializeComponent();
             InitializeLabels();
+            SetControls();
         }
 
         private void InitializeLabels()
@@ -38,8 +43,23 @@ namespace CreateGist.Controls
             this.clearCredentials.Visible = !string.IsNullOrEmpty(CreateGistOptions.AuthorizationHeader);
         }
 
+        private void SetControls()
+        {
+            this.isPrivate.Checked = _settings.IsPrivate;
+            this.isAnonymous.Checked = _settings.IsAnonymous;
+            this.shouldOpen.Checked = _settings.ShouldOpen;
+        }
+
+        private void SaveSettings()
+        {
+            _settings.IsPrivate = this.isPrivate.Checked;
+            _settings.IsAnonymous = this.isAnonymous.Checked;
+            _settings.ShouldOpen = this.shouldOpen.Checked;
+        }
+
         private void cancel_Click(object sender, EventArgs e)
         {
+            this.SaveSettings();
             this.Close();
         }
 
@@ -86,6 +106,7 @@ namespace CreateGist.Controls
                 Debug.WriteLine(ex);
             }
 
+            this.SaveSettings();
             this.Close();
         }
 
@@ -96,7 +117,7 @@ namespace CreateGist.Controls
 
             if (string.IsNullOrEmpty(CreateGistOptions.AuthorizationHeader))
             {
-                var loginForm = new GitHubLogin();
+                var loginForm = new GitHubLogin(_settings);
                 if (loginForm.ShowDialog(this) != System.Windows.Forms.DialogResult.OK)
                 {
                     throw new OperationCanceledException();
